@@ -2,6 +2,7 @@ import http from "http";
 import fs from "fs";
 import axios from "axios";
 import _ from "lodash";
+import { Root } from "./sample.dto";
 
 const JSON_URL = "http://127.0.0.1:3000/";
 
@@ -9,7 +10,7 @@ const JSON_URL = "http://127.0.0.1:3000/";
   const server = startServer();
   try {
     await simple();
-    await angularJsTypes();
+    await dto();
   } finally {
     server.close();
   }
@@ -26,14 +27,16 @@ function startServer() {
 }
 
 async function simple() {
-  const response = await axios.get(JSON_URL);
+  const response = await axios.get<Root>(JSON_URL);
   console.log(`
     status: ${response.status}
     has data?: ${!_.isEmpty(response.data)}
   `);
 }
 
-async function angularJsTypes() {
-  const response = await axios.get(JSON_URL);
-  console.log(response.data);
+async function dto() {
+  const response = await axios.get<Root>(JSON_URL);
+  console.log(
+    `response.data.CommonData.BAnimation: ${response.data.CommonData.BAnimation}`
+  );
 }
