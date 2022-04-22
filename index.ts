@@ -1,13 +1,29 @@
+import http from "http";
+import fs from "fs";
 import axios from "axios";
 import _ from "lodash";
 
-const JSON_URL =
-  "https://cdn.cookielaw.org/consent/3d9a6f21-8e47-43f8-8d58-d86150f3e92b/bfdc0170-9d1e-4c7f-8c32-8330b9996124/en.json";
+const JSON_URL = "http://127.0.0.1:3000/";
 
 (async function main() {
-  await simple();
-  await angularJsTypes();
+  const server = startServer();
+  try {
+    await simple();
+    await angularJsTypes();
+  } finally {
+    server.close();
+  }
 })();
+
+function startServer() {
+  let app = http.createServer((_req, res) => {
+    res.writeHead(200, { "Content-Type": "text/json" });
+    let vidstream = fs.createReadStream("sample.json");
+    vidstream.pipe(res);
+  });
+  app.listen(3000, "127.0.0.1");
+  return app;
+}
 
 async function simple() {
   const response = await axios.get(JSON_URL);
@@ -19,5 +35,5 @@ async function simple() {
 
 async function angularJsTypes() {
   const response = await axios.get(JSON_URL);
-  console.log(_.isEmpty(response));
+  console.log(response.data);
 }
