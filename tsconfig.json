@@ -28,7 +28,5 @@
     "useDefineForClassFields": true,
     "useUnknownInCatchVariables": true
   },
-  "exclude": [
-    "compiledts"
-  ]
+  "exclude": ["compiledts"]
 }
