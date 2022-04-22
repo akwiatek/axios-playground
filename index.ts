@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-axios.get('https://www.google.com/')
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+(async function main() {
+  try {
+      const response = await axios.get('https://www.google.com/');
+      console.log(response);
+  } catch (error) {
+      console.log(error);
+  }
+})();
