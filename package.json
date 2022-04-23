@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test-mocked": "ts-node mocked.ts",
+    "test-mocked": "ts-node node_modules/.bin/jasmine mocked.ts",
     "test-remote": "ts-node remote.ts"
   },
   "dependencies": {
