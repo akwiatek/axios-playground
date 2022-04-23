@@ -23,6 +23,10 @@ const IP = "127.0.0.1",
     await config();
     console.log("responseAngularJsLike");
     await responseAngularJsLike();
+    console.log("requestInterceptor");
+    await requestInterceptor();
+    console.log("errorHandler");
+    await errorHandler();
   } finally {
     server.close();
   }
@@ -74,4 +78,25 @@ async function responseAngularJsLike() {
       },
     }));
   console.log(`status: ${response.status}`);
+}
+
+async function requestInterceptor() {
+  const response = await axios({
+    method: "GET",
+    url: JSON_URL,
+    data: {
+      firstName: "Fred",
+      lastName: "Flintstone",
+    },
+  });
+  console.log(`status: ${response.status}`);
+}
+
+async function errorHandler() {
+  try {
+    await axios(`http://${IP}:${PORT + 1}/no-such-entry`);
+  } catch (error) {
+    console.log("error caught");
+    console.log(`axios?: ${axios.isAxiosError(error)}`);
+  }
 }
