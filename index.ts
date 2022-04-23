@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import _ from "lodash";
 import { startServer } from "./server";
 import { Root } from "./sample.dto";
@@ -25,6 +25,8 @@ const IP = "127.0.0.1",
     await responseAngularJsLike();
     console.log("requestInterceptor");
     await requestInterceptor();
+    console.log("responseInterceptor");
+    await responseInterceptor();
     console.log("errorHandler");
     await errorHandler();
   } finally {
@@ -81,19 +83,55 @@ async function responseAngularJsLike() {
 }
 
 async function requestInterceptor() {
+  const data = {
+    firstName: "Fred",
+    lastName: "Flintstone",
+  } as const;
   let interceptorCallCount = 0;
-  const interceptor = axios.interceptors.request.use((config) => {
-    interceptorCallCount++;
-    return config;
-  });
+  const interceptor = axios.interceptors.request.use(
+    (config: AxiosRequestConfig<typeof data>) => {
+      console.log(`intercepted config.data: ${JSON.stringify(config.data)}`);
+      interceptorCallCount++;
+      return config;
+    }
+  );
   try {
-    const response = await axios.get<Root>(JSON_URL);
+    const response = await axios.get<Root>(JSON_URL, { data });
     console.log(`status: ${response.status}`);
   } finally {
     axios.interceptors.request.eject(interceptor);
   }
   if (interceptorCallCount === 0) {
     throw new Error("requestInterceptor not called");
+  }
+}
+
+async function responseInterceptor() {
+  let interceptorCallCount = 0;
+  const interceptor = axios.interceptors.response.use(
+    (response: AxiosResponse<Root>) => {
+      console.log(
+        `intercepted response.data.NtfyConfig.Complete.BdrColor: ${JSON.stringify(
+          response.data.NtfyConfig.Complete.BdrColor
+        )}`
+      );
+      interceptorCallCount++;
+      return response;
+    }
+  );
+  try {
+    const response = await axios.get<Root>(JSON_URL);
+    console.log(`status: ${response.status}`);
+    console.log(
+      `response.data.NtfyConfig.Complete.BdrColor: ${JSON.stringify(
+        response.data.NtfyConfig.Complete.BdrColor
+      )}`
+    );
+  } finally {
+    axios.interceptors.response.eject(interceptor);
+  }
+  if (interceptorCallCount === 0) {
+    throw new Error("responseInterceptor not called");
   }
 }
 
