@@ -111,9 +111,7 @@ async function responseInterceptor() {
   const interceptor = axios.interceptors.response.use(
     (response: AxiosResponse<Root>) => {
       console.log(
-        `intercepted response.data.NtfyConfig.Complete.BdrColor: ${JSON.stringify(
-          response.data.NtfyConfig.Complete.BdrColor
-        )}`
+        `intercepted response.data.NtfyConfig.Complete.BdrColor: ${response.data.NtfyConfig.Complete.BdrColor}`
       );
       interceptorCallCount++;
       return response;
@@ -123,9 +121,7 @@ async function responseInterceptor() {
     const response = await axios.get<Root>(JSON_URL);
     console.log(`status: ${response.status}`);
     console.log(
-      `response.data.NtfyConfig.Complete.BdrColor: ${JSON.stringify(
-        response.data.NtfyConfig.Complete.BdrColor
-      )}`
+      `response.data.NtfyConfig.Complete.BdrColor: ${response.data.NtfyConfig.Complete.BdrColor}`
     );
   } finally {
     axios.interceptors.response.eject(interceptor);
