@@ -1,6 +1,6 @@
 import * as angular from "angular";
 
-export interface IHttpResponse<T> {
+export interface IHttpResponseAngularJsLike<T> {
     data: T;
     status: number;
     headers(headerName: string): string;
@@ -10,7 +10,9 @@ export interface IHttpResponse<T> {
     };
 }
 
-export type IHttpPromise<T> = Promise<IHttpResponse<T>>;
+export type IHttpPromiseAngularJsLike<T> = Promise<
+    IHttpResponseAngularJsLike<T>
+>;
 
 export type HttpPromiseAngularJs<T> = angular.IHttpPromise<T>;
 export type HttpResponseAngularJs<T> = angular.IHttpResponse<T>;
