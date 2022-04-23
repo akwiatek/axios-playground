@@ -5,8 +5,11 @@ export interface IHttpResponseAngularJsLike<T> {
     status: number;
     headers(headerName: string): string;
     config: {
+        // response only
         url: string;
-        headers?: Record<string, string>;
+        headers?: Record<string, string | number>;
+        // request only
+        xsrfCookieName?: string | undefined;
     };
 }
 
