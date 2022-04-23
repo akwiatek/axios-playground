@@ -15,6 +15,10 @@ const JSON_URL = "http://127.0.0.1:3000/";
     await dto();
     console.log("post");
     await post();
+    console.log("get + post");
+    await Promise.all([get(), post()]);
+    console.log("config");
+    await config();
   } finally {
     server.close();
   }
@@ -32,10 +36,7 @@ function startServer() {
 
 async function get() {
   const response = await axios.get<Root>(JSON_URL);
-  console.log(`
-    status: ${response.status}
-    has data?: ${!_.isEmpty(response.data)}
-  `);
+  console.log(`status: ${response.status}`);
 }
 
 async function dto() {
@@ -47,8 +48,17 @@ async function dto() {
 
 async function post() {
   const response = await axios.post<Root>(JSON_URL);
-  console.log(`
-    status: ${response.status}
-    has data?: ${!_.isEmpty(response.data)}
-  `);
+  console.log(`status: ${response.status}`);
+}
+
+async function config() {
+  const response = await axios({
+    method: "GET",
+    url: JSON_URL,
+    data: {
+      firstName: "Fred",
+      lastName: "Flintstone",
+    },
+  });
+  console.log(`status: ${response.status}`);
 }
