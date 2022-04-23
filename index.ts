@@ -1,13 +1,14 @@
-import http from "http";
-import fs from "fs";
 import axios from "axios";
 import _ from "lodash";
+import { startServer } from "./server";
 import { Root } from "./sample.dto";
 
-const JSON_URL = "http://127.0.0.1:3000/";
+const IP = "127.0.0.1",
+  PORT = 3000,
+  JSON_URL = `http://${IP}:${PORT}/`;
 
 (async function main() {
-  const server = startServer();
+  const server = startServer(IP, PORT);
   try {
     console.log("get");
     await get();
@@ -23,17 +24,6 @@ const JSON_URL = "http://127.0.0.1:3000/";
     server.close();
   }
 })();
-
-function startServer() {
-  let app = http.createServer((req, res) => {
-    console.log(`request: ${req.method}`);
-    res.writeHead(200, { "Content-Type": "text/json" });
-    let vidstream = fs.createReadStream("sample.json");
-    vidstream.pipe(res);
-  });
-  app.listen(3000, "127.0.0.1");
-  return app;
-}
 
 async function get() {
   const response = await axios.get<Root>(JSON_URL);
