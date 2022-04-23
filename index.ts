@@ -21,8 +21,8 @@ const IP = "127.0.0.1",
     await Promise.all([get(), post()]);
     console.log("config");
     await config();
-    console.log("angularJsLike");
-    await angularJsLike();
+    console.log("responseAngularJsLike");
+    await responseAngularJsLike();
   } finally {
     server.close();
   }
@@ -57,27 +57,21 @@ async function config() {
   console.log(`status: ${response.status}`);
 }
 
-async function angularJsLike() {
+async function responseAngularJsLike() {
   const response: IHttpResponseAngularJsLike<Root> = await axios
     .get<Root>(JSON_URL)
-    .then((response) => {
-      const requestHeaders: Record<string, string> | undefined =
-        response.config.headers === undefined
-          ? undefined
-          : _(response.config.headers)
-              .toPairs()
-              .map(([key, value]) => [key, `${value}`])
-              .fromPairs()
-              .value();
-      return {
-        ...response,
-        headers: (headerName) => response.headers[headerName] ?? "",
-        config: {
-          ...response.config,
-          headers: requestHeaders,
-          url: JSON_URL,
-        },
-      };
-    });
+    .then((response) => ({
+      ...response,
+      headers: (headerName) => response.headers[headerName] ?? "",
+      config: {
+        ...response.config,
+        url: response.config.url ?? "",
+        headers: _(response.config.headers)
+          .toPairs()
+          .map(([key, value]) => [key, `${value}`])
+          .fromPairs()
+          .value(),
+      },
+    }));
   console.log(`status: ${response.status}`);
 }
