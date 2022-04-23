@@ -9,8 +9,12 @@ const JSON_URL = "http://127.0.0.1:3000/";
 (async function main() {
   const server = startServer();
   try {
-    await simple();
+    console.log("get");
+    await get();
+    console.log("dto");
     await dto();
+    console.log("post");
+    await post();
   } finally {
     server.close();
   }
@@ -26,7 +30,7 @@ function startServer() {
   return app;
 }
 
-async function simple() {
+async function get() {
   const response = await axios.get<Root>(JSON_URL);
   console.log(`
     status: ${response.status}
@@ -39,4 +43,12 @@ async function dto() {
   console.log(
     `response.data.CommonData.BAnimation: ${response.data.CommonData.BAnimation}`
   );
+}
+
+async function post() {
+  const response = await axios.post<Root>(JSON_URL);
+  console.log(`
+    status: ${response.status}
+    has data?: ${!_.isEmpty(response.data)}
+  `);
 }
