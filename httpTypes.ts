@@ -4,13 +4,15 @@ export interface IHttpResponseAngularJsLike<T> {
     data: T;
     status: number;
     headers(headerName: string): string;
-    config: {
-        // response only
-        url: string;
-        headers?: Record<string, string | number>;
-        // request only
-        xsrfCookieName?: string | undefined;
-    };
+    config: IRequestConfigAngularJsLike;
+}
+
+export interface IRequestConfigAngularJsLike {
+    // response only
+    url: string;
+    headers?: Record<string, string | number>;
+    // request only
+    xsrfCookieName?: string | undefined;
 }
 
 export type IHttpPromiseAngularJsLike<T> = Promise<
