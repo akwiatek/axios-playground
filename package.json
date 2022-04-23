@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "ts-node index.ts"
+    "test": "ts-node remote.ts"
   },
   "dependencies": {
     "@types/angular": "1.8.4",
