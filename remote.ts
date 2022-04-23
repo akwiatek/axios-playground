@@ -68,10 +68,10 @@ async function responseAngularJsLike() {
     .get<Root>(JSON_URL)
     .then((response) => ({
       ...response,
-      headers: (headerName) => response.headers[headerName] ?? "",
+      headers: (headerName) => response.headers[headerName],
       config: {
         ...response.config,
-        url: response.config.url ?? "",
+        url: response.config.url ? response.config.url : "",
         headers: _(response.config.headers)
           .toPairs()
           .map(([key, value]) => [key, `${value}`])
