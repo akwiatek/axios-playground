@@ -10,5 +10,7 @@ export interface IHttpResponse<T> {
     };
 }
 
+export type IHttpPromise<T> = Promise<IHttpResponse<T>>;
+
 export type HttpPromiseAngularJs<T> = angular.IHttpPromise<T>;
 export type HttpResponseAngularJs<T> = angular.IHttpResponse<T>;
