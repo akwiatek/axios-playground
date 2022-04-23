@@ -25,7 +25,8 @@ const JSON_URL = "http://127.0.0.1:3000/";
 })();
 
 function startServer() {
-  let app = http.createServer((_req, res) => {
+  let app = http.createServer((req, res) => {
+    console.log(`request: ${req.method}`);
     res.writeHead(200, { "Content-Type": "text/json" });
     let vidstream = fs.createReadStream("sample.json");
     vidstream.pipe(res);
