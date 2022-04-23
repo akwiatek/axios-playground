@@ -81,15 +81,20 @@ async function responseAngularJsLike() {
 }
 
 async function requestInterceptor() {
-  const response = await axios({
-    method: "GET",
-    url: JSON_URL,
-    data: {
-      firstName: "Fred",
-      lastName: "Flintstone",
-    },
+  let interceptorCallCount = 0;
+  const interceptor = axios.interceptors.request.use((config) => {
+    interceptorCallCount++;
+    return config;
   });
-  console.log(`status: ${response.status}`);
+  try {
+    const response = await axios.get<Root>(JSON_URL);
+    console.log(`status: ${response.status}`);
+  } finally {
+    axios.interceptors.request.eject(interceptor);
+  }
+  if (interceptorCallCount === 0) {
+    throw new Error("requestInterceptor not called");
+  }
 }
 
 async function errorHandler() {
@@ -98,5 +103,7 @@ async function errorHandler() {
   } catch (error) {
     console.log("error caught");
     console.log(`axios?: ${axios.isAxiosError(error)}`);
+    return;
   }
+  throw new Error("No error from Axios");
 }
