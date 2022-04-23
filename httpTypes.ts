@@ -4,7 +4,10 @@ export interface IHttpResponse<T> {
     data: T;
     status: number;
     headers(headerName: string): string;
-    config: Pick<angular.IRequestConfig, "url" | "headers">;
+    config: {
+        url: string;
+        headers?: Record<string, string>;
+    };
 }
 
 export type HttpPromiseAngularJs<T> = angular.IHttpPromise<T>;
