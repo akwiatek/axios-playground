@@ -8,8 +8,9 @@ export function startServer(
 ): Pick<http.Server, "close"> {
   let app = http.createServer((req, res) => {
     console.log(`request: ${req.method}`);
-    res.writeHead(200, { "Content-Type": "text/json" });
-    res.end(JSON.stringify(sample));
+    res
+      .writeHead(200, { "Content-Type": "text/json" })
+      .end(JSON.stringify(sample));
   });
   app.listen(port, ip);
   return app;
