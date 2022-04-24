@@ -1,6 +1,6 @@
 import http from "http";
-import fs from "fs";
 import _ from "lodash";
+import sample from "./sample.json";
 
 export function startServer(
   ip: string,
@@ -9,8 +9,7 @@ export function startServer(
   let app = http.createServer((req, res) => {
     console.log(`request: ${req.method}`);
     res.writeHead(200, { "Content-Type": "text/json" });
-    let vidstream = fs.createReadStream("sample.json");
-    vidstream.pipe(res);
+    res.end(JSON.stringify(sample));
   });
   app.listen(port, ip);
   return app;

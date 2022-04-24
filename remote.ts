@@ -1,8 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import _ from "lodash";
 import { startServer } from "./server";
-import { Root } from "./sample.dto";
+import sample from "./sample.json";
 import { IHttpResponseAngularJsLike } from "httpTypes";
+
+type Root = typeof sample;
 
 const IP = "127.0.0.1",
   PORT = 3000,
