@@ -4,7 +4,7 @@ import "jasmine";
 import sample from "./sample.json";
 
 const IP = "127.0.0.1",
-    PORT = 3000,
+    PORT = 4000,
     JSON_URL = `http://${IP}:${PORT}/`;
 
 describe("spec", () => {

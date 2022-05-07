@@ -7,7 +7,7 @@ import { IHttpResponseAngularJsLike } from "httpTypes";
 type Root = typeof sample;
 
 const IP = "127.0.0.1",
-  PORT = 3000,
+  PORT = 4000,
   JSON_URL = `http://${IP}:${PORT}/`;
 
 (async function main() {
