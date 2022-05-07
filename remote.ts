@@ -57,6 +57,7 @@ async function config() {
   const response = await axios({
     method: "GET",
     url: JSON_URL,
+    responseType: "json",
     data: {
       firstName: "Fred",
       lastName: "Flintstone",
